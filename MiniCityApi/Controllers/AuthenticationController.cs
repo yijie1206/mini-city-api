@@ -13,9 +13,9 @@ namespace MiniCityApi.Controllers
     public class AuthenticationController : ControllerBase
     {
 
-        private Microsoft.AspNetCore.Authentication.IAuthenticationService _authenticationService;
+        private IAuthenticationService _authenticationService;
 
-        public AuthenticationController(Microsoft.AspNetCore.Authentication.IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
 
@@ -25,10 +25,11 @@ namespace MiniCityApi.Controllers
         public ActionResult<String> Login(AuthenticationRequestBodyDto authenticationRequestBody)
         {
             var validateCredential = _authenticationService.ValidateCredentials(authenticationRequestBody.UserName, authenticationRequestBody.Password);
-            if ()
+            if (validateCredential==null)
             {
-
+                return Unauthorized();
             }
+            return Ok();
         }
 
 
