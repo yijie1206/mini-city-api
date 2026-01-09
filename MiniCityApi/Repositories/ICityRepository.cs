@@ -1,6 +1,7 @@
 ﻿using MiniCityApi.DomainModel;
 
 namespace MiniCityApi.Repositories
+
 {
     public interface ICityRepository
     {
