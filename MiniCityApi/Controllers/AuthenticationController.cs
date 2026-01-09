@@ -31,6 +31,11 @@ namespace MiniCityApi.Controllers
         public ActionResult<String> Login(AuthenticationRequestBodyDto authenticationRequestBody)
         {
             var key = _configuration["Authentication:SecretForKey"];
+            if (key == null)
+            {
+                throw new InvalidOperationException("JWT signing key is not configured.");
+            }
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             var validateCredential = _authenticationService.ValidateCredentials(authenticationRequestBody.UserName, authenticationRequestBody.Password);
