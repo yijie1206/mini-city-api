@@ -1,8 +1,10 @@
-﻿namespace MiniCityApi.Repositories
+﻿using MiniCityApi.DomainModel;
+
+namespace MiniCityApi.Services
 {
     public interface IAuthenticationService
     {
 
-        CityInfoUser ValiateCredentials(string? UserName, string? Password);
+        CityInfoUser? ValidateCredentials(string? UserName, string? Password);
     }
 }

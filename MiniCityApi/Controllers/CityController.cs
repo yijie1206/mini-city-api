@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniCityApi.DomainModel;
 using MiniCityApi.DTOs;
@@ -9,6 +10,7 @@ using System.Security.Cryptography.Xml;
 namespace MiniCityApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CityController : ControllerBase
     {

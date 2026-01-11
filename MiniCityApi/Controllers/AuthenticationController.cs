@@ -20,7 +20,7 @@ namespace MiniCityApi.Controllers
 
         private IAuthenticationService _authenticationService;
 
-        private IConfiguration _configuration;
+        private  IConfiguration _configuration;
 
         public AuthenticationController(IAuthenticationService authenticationService, IConfiguration configuration)
         {

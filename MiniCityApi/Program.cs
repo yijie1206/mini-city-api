@@ -3,6 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Tokens.Experimental;
 using MiniCityApi.Repositories;
 using System.Text;
+using MiniCityApi.Services;
+using IAuthenticationService = MiniCityApi.Services.IAuthenticationService;
+using AuthenticationService = MiniCityApi.Services.AuthenticationService;
 
 
 
