@@ -48,5 +48,38 @@ namespace MiniCityApi.Tests
             Assert.Equal(cityId, returnedCity.Id);//citymodel needs to be modified later to citydto
         }
 
+        [Fact]
+        public void GetCity_ReturnsNotFound_WhenCityNotExists()
+        {
+            //arrange
+            var cityId = 10;
+
+            //var city = new CityModel
+            //{
+            //    Id = cityId,
+            //    Name = "Auckland",
+            //    Description = "Test city"
+            //};
+
+            //var mockRepo = new Mock<ICityRepository>();
+            //mockRepo
+            //    .Setup(r => r.GetCity(1))
+            //    .Returns(city);
+            var mockRepo = new Mock<ICityRepository>();
+            mockRepo
+                .Setup(r => r.GetCity(1));
+                
+
+            var controller = new CityController(mockRepo.Object);
+
+            //act
+            var result = controller.GetCity(cityId);
+
+            //assert
+            var notFoundResult = Assert.IsType<NotFoundResult>(result.Result);
+
+            
+        }
+
     }
 }
