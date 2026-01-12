@@ -1,8 +1,13 @@
-﻿namespace MiniCityApi.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MiniCityApi.DTOs
 {
     public class AuthenticationRequestBodyDto
     {
-        public string? UserName { get; set; } =string.Empty;
-        public string? Password { get; set; }
+        [Required]
+        public string UserName { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
     }
 }

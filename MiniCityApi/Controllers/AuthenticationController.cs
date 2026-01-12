@@ -33,6 +33,7 @@ namespace MiniCityApi.Controllers
         [HttpPost("login")]
         public ActionResult<String> Login(AuthenticationRequestBodyDto authenticationRequestBody)
         {
+            //2.appsettings + DI + securityKey
             var key = _configuration["Authentication:SecretForKey"];
             if (key == null)
             {
@@ -42,13 +43,14 @@ namespace MiniCityApi.Controllers
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            //validate input for authentication request body
+            //1.validate input for authentication request body
             var validateCredential = _authenticationService.ValidateCredentials(authenticationRequestBody.UserName, authenticationRequestBody.Password);
             if (validateCredential == null)
             {
                 return Unauthorized();
             }
 
+            //3.claim(payload)
             var claimForToken = new List<Claim>
             {
                 new Claim("sub",validateCredential.UserId.ToString()),
@@ -57,7 +59,7 @@ namespace MiniCityApi.Controllers
                 new Claim("role", validateCredential.Role)
             };
 
-            //create token object
+            //4.create token object
             var jwtSecurityToken = new JwtSecurityToken
 
                 (
@@ -69,7 +71,7 @@ namespace MiniCityApi.Controllers
 
                 );
 
-            //convert token object to a JWT string 
+            //5.convert token object to a JWT string 
             var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
             return Ok(tokenToReturn);
