@@ -43,7 +43,7 @@ namespace MiniCityApi.Tests
 
             //assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-      
+
             var returnedCity = Assert.IsType<CityModel>(okResult.Value);
             Assert.Equal(cityId, returnedCity.Id);//citymodel needs to be modified later to citydto
         }
@@ -68,7 +68,7 @@ namespace MiniCityApi.Tests
             var mockRepo = new Mock<ICityRepository>();
             mockRepo
                 .Setup(r => r.GetCity(1));
-                
+
 
             var controller = new CityController(mockRepo.Object);
 
@@ -77,8 +77,6 @@ namespace MiniCityApi.Tests
 
             //assert
             var notFoundResult = Assert.IsType<NotFoundResult>(result.Result);
-
-            
         }
 
     }
