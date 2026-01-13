@@ -14,11 +14,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace MiniCityApi.Tests
 {
     public class AuthenticationControllerTests
     {
-
 
         [Fact]
         public void PostAuth_ReturnsOk_WhenAuthExists()
@@ -26,17 +26,6 @@ namespace MiniCityApi.Tests
             //arrange
             var fakeUserName = "aa";
             var fakePassword = "123";
-
-            //var cityInfoUser = new CityInfoUser
-            //{
-            //    UserId = 1,
-            //    UserName = "MM"
-            //};
-
-            //var mockAuth = new Mock<IAuthenticationService>();
-            //mockAuth
-            //    .Setup(r => r.ValidateCredentials(fakeUserName, fakePassword))
-            //        .Returns(cityInfoUser);
 
             //act
             //Fake auth service
