@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MiniCityApi.Controllers;
 using MiniCityApi.DomainModel;
+using MiniCityApi.Mappings;
 using MiniCityApi.Model;
 using MiniCityApi.Repositories;
 using Moq;
@@ -36,7 +38,16 @@ namespace MiniCityApi.Tests
                 .Setup(r => r.GetCity(cityId))
                 .Returns(city);
 
-            var controller = new CityController(mockRepo.Object);
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<CityProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+
+
+            var controller = new CityController(mockRepo.Object, mapper);
+
+          
 
             //act
             var result = controller.GetCity(cityId);
@@ -44,7 +55,7 @@ namespace MiniCityApi.Tests
             //assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
 
-            var returnedCity = Assert.IsType<CityModel>(okResult.Value);
+            var returnedCity = Assert.IsType<CityDto>(okResult.Value);
             Assert.Equal(cityId, returnedCity.Id);//citymodel needs to be modified later to citydto
         }
 
@@ -69,8 +80,14 @@ namespace MiniCityApi.Tests
             mockRepo
                 .Setup(r => r.GetCity(1));
 
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<CityProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
 
-            var controller = new CityController(mockRepo.Object);
+
+            var controller = new CityController(mockRepo.Object, mapper);
 
             //act
             var result = controller.GetCity(cityId);
