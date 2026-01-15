@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Tokens.Experimental;
+using MiniCityApi.Data;
 using MiniCityApi.Mappings;
 using MiniCityApi.Repositories;
 using MiniCityApi.Services;
@@ -20,7 +22,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ICityRepository, InMemoryCityRepository>();
+//builder.Services.AddSingleton<ICityRepository, InMemoryCityRepository>();
+builder.Services.AddScoped<ICityRepository, EfCityRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddAuthentication("Bearer")
@@ -30,7 +33,7 @@ builder.Services.AddAuthentication("Bearer")
         ?? throw new InvalidOperationException("JWT SecretForKey is not configured");
 
         options.TokenValidationParameters = new()
-        {   
+        {
 
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -45,6 +48,10 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 builder.Services.AddAutoMapper(typeof(CityProfile));
+
+builder.Services.AddDbContext<CityDbContext>(options =>
+options.UseSqlite(
+    builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 var app = builder.Build();
