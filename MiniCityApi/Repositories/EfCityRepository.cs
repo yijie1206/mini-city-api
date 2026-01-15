@@ -1,4 +1,5 @@
-﻿using MiniCityApi.Data;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using MiniCityApi.Data;
 using MiniCityApi.DomainModel;
 
 namespace MiniCityApi.Repositories
@@ -7,34 +8,61 @@ namespace MiniCityApi.Repositories
     {
         private readonly CityDbContext _cityDbContext;
 
-        public EfCityRepository(CityDbContext cityDbContext) 
+        public EfCityRepository(CityDbContext cityDbContext)
         {
             _cityDbContext = cityDbContext;
         }
 
-        CityModel ICityRepository.AddCity(CityModel cityModel)
+
+        public IEnumerable<CityModel> GetCities()
         {
-            throw new NotImplementedException();
+            return _cityDbContext.Cities.ToList();
         }
 
-        bool ICityRepository.DeleteCity(int cityId)
+
+        public CityModel? GetCity(int cityId)
         {
-            throw new NotImplementedException();
+            return _cityDbContext.Cities.FirstOrDefault(c => c.Id == cityId);
         }
 
-        IEnumerable<CityModel> ICityRepository.GetCities()
+
+        public CityModel AddCity(CityModel cityModel)
         {
-            throw new NotImplementedException();
+            var city = new CityModel
+            {
+                Name = cityModel.Name,
+                Description = cityModel.Description,
+            };
+            var newCity = _cityDbContext.Cities.Add(city);
+            _cityDbContext.SaveChanges();
+            return city;
         }
 
-        CityModel? ICityRepository.GetCity(int cityId)
+        public bool UpdateCity(CityModel cityModel)
         {
-            throw new NotImplementedException();
+            var city = _cityDbContext.Cities.FirstOrDefault(c => c.Id == cityModel.Id);
+            if (city != null)
+            {
+                city.Name = cityModel.Name;
+                city.Description = cityModel.Description;
+                _cityDbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
-        bool ICityRepository.UpdateCity(CityModel cityModel)
+
+
+        public bool DeleteCity(int cityId)
         {
-            throw new NotImplementedException();
+            var city = _cityDbContext.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (city != null)
+            {
+                _cityDbContext.Remove(city);
+                _cityDbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }
