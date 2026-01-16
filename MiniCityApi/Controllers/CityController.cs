@@ -31,7 +31,6 @@ namespace MiniCityApi.Controllers
         public ActionResult<IEnumerable<CityDto>> GetCities()
         {
             var city = _cityRepository.GetCities();
-
             var cityDto = _mapper.Map<IEnumerable<CityDto>>(city);
             return Ok(cityDto);
         }
@@ -45,27 +44,22 @@ namespace MiniCityApi.Controllers
             {
                 return NotFound();
             }
-            else
-            {
-                var cityDto = _mapper.Map<CityDto>(city);
-                return Ok(cityDto);
-            }
+            var cityDto = _mapper.Map<CityDto>(city);
+            return Ok(cityDto);
+
         }
 
 
         [HttpPost]
         public ActionResult<CityDto> CreateCity([FromBody] CreateCityDto createCityDto)
         {
-
+            //validate input
             if (string.IsNullOrWhiteSpace(createCityDto.Name))
             {
                 return BadRequest("City name is required.");
             }
-
             var cityModel = _mapper.Map<CityModel>(createCityDto);
-
             var city = _cityRepository.AddCity(cityModel);
-
             var cityDto = _mapper.Map<CityDto>(city);
             return CreatedAtAction
                 (
@@ -78,21 +72,18 @@ namespace MiniCityApi.Controllers
 
         [HttpPut("{cityId}")]
         public IActionResult UpdateCity(int cityId, [FromBody] UpdateCityDto updateCityDto)
-        {           
+        {
             if (string.IsNullOrEmpty(updateCityDto.Name))
             {
                 return BadRequest("City name is required.");
             }
-
             var getExistingCity = _cityRepository.GetCity(cityId);
-
             if (getExistingCity == null)
             {
                 return NotFound();
             }
-
-            var cityModel = _mapper.Map(updateCityDto, getExistingCity);        
-            _cityRepository.UpdateCity(cityModel);               
+            var cityModel = _mapper.Map(updateCityDto, getExistingCity);
+            _cityRepository.UpdateCity(cityModel); //save         
             return NoContent();
         }
 
@@ -100,13 +91,13 @@ namespace MiniCityApi.Controllers
 
         [HttpDelete("{cityId}")]
         public IActionResult DeleteCity(int cityId)
-        {           
+        {
             var city = _cityRepository.DeleteCity(cityId);
             if (city == false)
             {
                 return NotFound();
-            }                       
-                return NoContent();
+            }
+            return NoContent();
         }
     }
 }
