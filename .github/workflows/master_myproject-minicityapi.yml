@@ -59,7 +59,8 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'MyProject-MiniCityApi'
+          app-name: 'myproject-minicityapi-fkd9cmgnfrasgaf5'
           slot-name: 'Production'
           package: .
+
           
