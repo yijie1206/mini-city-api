@@ -51,16 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C8019D8367A04964B2ADDD24E523BC82 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5ECF91081E5D461E8C0A3AEFD65DC699 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FCA093150146406F893FF41CDBBB11C1 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B4F8E9BF1F1143B8A87C721530A012E0 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DEAEE19A4C0C44C1992F43A7B5907DAB }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C618D595BF2643AB97599EB0F4CD53FA }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'myproject-minicityapi-fkd9cmgnfrasgaf5'
+          app-name: 'MyProject-MiniCityApi'
           slot-name: 'Production'
           package: .
-
           
