@@ -99,6 +99,14 @@ namespace MiniCityApi.Controllers
             }
             return NoContent();
         }
+
+        //test
+        [HttpGet("version")]
+        public ActionResult<string> Version()
+        {
+            return Ok("MiniCityApi version: 20cb8ab");
+        }
+
     }
 }
 
